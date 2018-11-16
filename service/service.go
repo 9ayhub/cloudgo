@@ -1,15 +1,15 @@
 package service
 
 import (
-	"github.com/go-martini/martini" /*使用martini*/
+	//"github.com/go-martini/martini"
+	"github.com/gin-gonic/gin"
 )
 
 func NewServer(port string) { /*新建服务器*/
-	m := martini.Classic()
-	/*添加参数[name]martini的参数中*/
-	m.Get("/hello/:name", func(params martini.Params) string {
-		return "Hello " + params["name"] + " :)"
+	r := gin.Default()
+	r.GET("/hello/:name", func(c *gin.Context) {
+		name := c.Param("name")
+		c.String(200, "Hello "+name)
 	})
-	/*对应main函数中的端口*/
-	m.RunOnAddr(":" + port)
+	r.Run(":" + port)
 }
